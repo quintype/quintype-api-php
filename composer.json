@@ -1,5 +1,8 @@
 {
     "name": "quintype/api",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+    },
     "autoload": {
         "psr-0" : {
             "Quintype" : "src"
