@@ -163,6 +163,9 @@ class Api
         }
     }
 
+    /**
+    All and weekly issues.
+    **/
     public function storyCollections($params) {
         $query = '/api/v1/story-collections/content';
 
