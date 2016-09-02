@@ -185,6 +185,30 @@ class Api
         return $issue;
     }
 
+    public function menu(){
+        $query = '/api/config';
+        $response = $this->getResponse($query);
+
+        return $response;
+    }
+
+    public function getCurrentMember($cookie) {
+        $query = "/api/v1/members/me";
+
+        return $this->getResponse($query, ['authHeader'=>$cookie]);
+    }
+
+    /**
+    Called when trying to log in a user.
+    **/
+    public function formLogin($data) {
+        $query = "/api/member/login";
+        $response = $this->postRequest($query, $data);
+        if ($response && $response->getHeader('Set-Cookie')) {
+            $cookie = Psr7\parse_header($response->getHeader('Set-Cookie'))[0]['session-cookie'];
+            return urldecode($cookie);
+        }
+    }
 
 }
 
