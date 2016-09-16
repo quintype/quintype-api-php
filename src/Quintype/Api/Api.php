@@ -18,7 +18,7 @@ class Api
     Get the entire configuration for the app.
     **/
     public function config(){
-        $query = '/api/config';
+        $query = '/api/v1/config';
         $response = $this->getResponse($query);
 
         return $response;
@@ -80,7 +80,7 @@ class Api
     Function to be called for fetching all the stories.
     **/
     public function getStories($requestPayload){
-        $query = '/api/bulk';
+        $query = '/api/v1/bulk';
         $payload = $this->buildPayload($requestPayload);//Add necessary data that are missing in the payload.
         $response = $this->postRequest($query, ["requests" => $payload]);//Get the stories.
 
@@ -88,11 +88,22 @@ class Api
     }
 
     /**
-    Function to be called for fetching the a single story.
+    Function to be called for fetching a single story.
     **/
     public function story($params){
-        $query = '/api/stories-by-slug';
+        $query = '/api/v1/stories-by-slug';
         $response = $this->getResponse($query, ['params' => $params]);
+
+        return $response;
+    }
+
+    public function stories($params){
+        $query = '/api/v1/stories';
+        $response = $this->getResponse($query, ['params' => $params]);
+
+        if (empty($response)) {
+            return false;
+        }
 
         return $response;
     }
@@ -117,18 +128,6 @@ class Api
         return $response;
     }
 
-    public function stories($params){
-        $query = '/api/stories';
-
-        $response = $this->getResponse($query, ['params' => $params]);
-
-        if (empty($response)) {
-            return false;
-        }
-
-        return $response;
-    }
-
     public function latestStoryCollection($params) {
         $query = '/api/story-collection/find-by-tag';
         $response = $this->getResponse($query, ['params' => $params]);
@@ -141,7 +140,7 @@ class Api
     }
 
     public function search($search = null){
-        $query = '/api/search?';
+        $query = '/api/v1/search?';
         $first = true;
         foreach ($search as $key => $value) {
             $string = '&' . $key . '=' . urlencode($value);
@@ -186,7 +185,7 @@ class Api
     }
 
     public function menu(){
-        $query = '/api/config';
+        $query = '/api/v1/config';
         $response = $this->getResponse($query);
 
         return $response;
@@ -208,6 +207,23 @@ class Api
             $cookie = Psr7\parse_header($response->getHeader('Set-Cookie'))[0]['session-cookie'];
             return urldecode($cookie);
         }
+    }
+
+    /**
+    For related stories and comments in TGD.
+    **/
+    public function storyRelated($id, $relation=''){
+        $query = "/api/v1/stories/" . $id . "/" . $relation;
+        $response = $this->getResponse($query);
+
+        return $response;
+    }
+
+    public function storyDataById($story_id){
+        $query = "/api/v1/stories/" . $story_id;
+        $response = $this->getResponse($query);
+
+        return $response;
     }
 
 }
