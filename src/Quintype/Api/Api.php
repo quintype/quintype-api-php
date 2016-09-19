@@ -129,7 +129,7 @@ class Api
     }
 
     public function latestStoryCollection($params) {
-        $query = '/api/v1/story-collection/find-by-tag';
+        $query = '/api/story-collection/find-by-tag';
         $response = $this->getResponse($query, ['params' => $params]);
 
         if (empty($response)) {
