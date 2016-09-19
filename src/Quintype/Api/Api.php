@@ -105,7 +105,7 @@ class Api
             return false;
         }
 
-        return $response;
+        return $response['stories'];
     }
 
     /**
@@ -122,14 +122,14 @@ class Api
     Get the author details of a story.
     **/
     public function getAuthor($id){
-        $query = '/api/author/' . $id;
+        $query = '/api/v1/authors/' . $id;
         $response = $this->getResponse($query);
 
-        return $response;
+        return $response['author'];
     }
 
     public function latestStoryCollection($params) {
-        $query = '/api/story-collection/find-by-tag';
+        $query = '/api/v1/story-collection/find-by-tag';
         $response = $this->getResponse($query, ['params' => $params]);
 
         if (empty($response)) {
