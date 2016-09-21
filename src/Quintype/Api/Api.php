@@ -67,10 +67,11 @@ class Api
     /**
     Used to add any common data required for each element of the payload.
     **/
-    private function buildPayload($requestPayload){
+    private function buildPayload($requestPayload, $fields){
         $type = 'stories';
         foreach ($requestPayload as $key => $value) {
             $requestPayload[$key]['_type']=$type;
+            $requestPayload[$key]['fields']=$fields;
         }
 
         return $requestPayload;
@@ -79,9 +80,9 @@ class Api
     /**
     Function to be called for fetching all the stories.
     **/
-    public function getStories($requestPayload){
+    public function getStories($requestPayload, $fields = ''){
         $query = '/api/v1/bulk';
-        $payload = $this->buildPayload($requestPayload);//Add necessary data that are missing in the payload.
+        $payload = $this->buildPayload($requestPayload, $fields);//Add necessary data that are missing in the payload.
         $response = $this->postRequest($query, ["requests" => $payload]);//Get the stories.
 
         return $response['results'];
@@ -94,7 +95,7 @@ class Api
         $query = '/api/v1/stories-by-slug';
         $response = $this->getResponse($query, ['params' => $params]);
 
-        return $response;
+        return $response['story'];
     }
 
     public function stories($params){
@@ -152,7 +153,8 @@ class Api
             $first = false;
         }
 
-        return $this->getResponse($query);
+        $response = $this->getResponse($query);
+        return $response["results"]['stories'];
     }
 
     public function storyAccessData($id, $sessionCookie) {
