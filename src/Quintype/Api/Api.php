@@ -5,10 +5,9 @@ namespace Quintype\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
-use ArrayObject;
 
-class Api{
-
+class Api
+{
     public function __construct($apiHost){
         $this->client = new Client([
             'base_uri' => $apiHost,
@@ -202,18 +201,6 @@ class Api{
         return $response;
     }
 
-    /**
-    Function to return the functions that will return title and url.
-    **/
-    public function menuItems() {
-        return array_map(
-            function($menu) {
-                return new MenuItem($menu);
-            },
-            $this->config()['layout']['menu']
-        );
-    }
-
     public function getCurrentMember($cookie) {
         $query = "/api/v1/members/me";
 
@@ -247,21 +234,6 @@ class Api{
         $response = $this->getResponse($query);
 
         return $response;
-    }
-
-}
-
-class MenuItem extends ArrayObject {
-
-    public function title() {
-        return $this["title"];
-    }
-
-    public function url() {
-        switch ($this["item-type"]) {
-            case "section": return "/section/" . $this["section-slug"];
-            default: return "#";
-        }
     }
 
 }
