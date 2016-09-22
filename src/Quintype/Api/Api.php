@@ -80,7 +80,7 @@ class Api
     }
 
     /**
-    Function to be called for fetching all the stories.
+    Function to be called for fetching all the stories in different categories.
     **/
     public function getStories($requestPayload, $fields = ''){
         $query = '/api/v1/bulk';
@@ -100,6 +100,9 @@ class Api
         return $response['story'];
     }
 
+    /**
+    Function to be called for fetching all the stories of a single story group.
+    **/
     public function stories($params){
         $query = '/api/v1/stories';
         $response = $this->getResponse($query, ['params' => $params]);
@@ -142,6 +145,9 @@ class Api
         return $response;
     }
 
+    /**
+    Make a search.
+    **/
     public function search($search = null){
         $query = '/api/v1/search?';
         $first = true;
