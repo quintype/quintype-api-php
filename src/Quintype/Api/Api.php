@@ -71,7 +71,9 @@ class Api
         $type = 'stories';
         foreach ($requestPayload as $key => $value) {
             $requestPayload[$key]['_type']=$type;
-            $requestPayload[$key]['fields']=$fields;
+            if($fields!=''){
+                $requestPayload[$key]['fields']=$fields;
+            }
         }
 
         return $requestPayload;
@@ -216,7 +218,7 @@ class Api
     **/
     public function storyRelated($id, $relation=''){
         $query = "/api/v1/stories/" . $id . "/" . $relation;
-        $response = $this->getResponse($query);
+        $response = $this->getResponse($query)[$relation];
 
         return $response;
     }
