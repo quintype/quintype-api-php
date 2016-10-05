@@ -5,6 +5,7 @@ namespace Quintype\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
+use ArrayObject;
 
 class Api
 {
@@ -53,6 +54,7 @@ class Api
     **/
     private function postRequest($query, $data){
         try {
+
             $request = $this->client->request('POST', $query, [
                 'json' => $data
             ]);
@@ -83,6 +85,7 @@ class Api
     Function to be called for fetching all the stories in different categories.
     **/
     public function getStories($requestPayload, $fields = ''){
+
         $query = '/api/v1/bulk';
         $payload = $this->buildPayload($requestPayload, $fields);//Add necessary data that are missing in the payload.
         $response = $this->postRequest($query, ["requests" => $payload]);//Get the stories.
@@ -238,9 +241,58 @@ class Api
 
 }
 
+class Bulk
+{
+    public function __construct() {
+        $this->requests = [];
+    }
 
+    public function addRequest($name, $request) {
+        $this->requests[$name] = $request;
+        return $this;
+    }
 
+    public function execute($client) {
+        $requests = [];
+        foreach($this->requests as $key => $value) {
+            $requests[$key] = $value->toBulkRequest();
+        }
+        $apiResponse = $client->getStories($requests);
+        $responses = [];
+        foreach($this->requests as $key => $value) {
+            $responses[$key] = $value->fromBulkResponse($apiResponse[$key]);
+        }
+        $this->responses = $responses;
+    }
 
+    public function getResponse($name) {
+        return $this->responses[$name];
+    }
+}
 
+class Story extends ArrayObject
+{
 
+}
 
+class StoriesRequest
+{
+    public function __construct($storyGroup) {
+        $this->params = ["story-group" => $storyGroup, "_type" => "stories"];
+    }
+
+    public function addParams($params) {
+        $this->params = array_merge($this->params, $params);
+        return $this;
+    }
+
+    public function toBulkRequest() {
+        return $this->params;
+    }
+
+    public function fromBulkResponse($response) {
+        return array_map(function ($s) {
+            return new Story($s);
+        }, $response["stories"]);
+    }
+}
