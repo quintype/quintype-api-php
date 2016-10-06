@@ -33,10 +33,9 @@ class Bulk
     return $this->responses[$name];
   }
 
-  private function getStories($requestPayload, $fields = ''){
+  private function getStories($requestPayload){
     $query = '/api/v1/bulk';
-    $payload = $this->base->buildPayload($requestPayload, $fields);//Add necessary data that are missing in the payload.
-    $response = $this->base->postRequest($query, ["requests" => $payload]);//Get the stories.
+    $response = $this->base->postRequest($query, ["requests" => $requestPayload]);//Get the stories.
     return $response['results'];
   }
 }
