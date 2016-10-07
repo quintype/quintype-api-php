@@ -11,12 +11,12 @@ class Bulk
     $this->base = new BaseFunctions($client);
   }
 
-  public function addRequest($name, $request) {
-    $this->requests[$name] = $request;
+  public function addBulkRequest($name, $request, $params) {
+    $this->requests[$name] = (new StoriesRequest($request))->addParams($params);
     return $this;
   }
 
-  public function execute($client) {
+  public function executeBulk($client) {
     $requests = [];
     foreach($this->requests as $key => $value) {
       $requests[$key] = $value->toBulkRequest();
@@ -29,7 +29,7 @@ class Bulk
     $this->responses = $responses;
   }
 
-  public function getResponse($name) {
+  public function getBulkResponse($name) {
     return $this->responses[$name];
   }
 

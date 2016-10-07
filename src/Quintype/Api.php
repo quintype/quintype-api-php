@@ -23,16 +23,16 @@ class Api
     return $this->config->config();
   }
 
-  public function addBulkRequest($name, $request){
-    return $this->bulk->addRequest($name, $request);
+  public function addBulkRequest($name, $request, $params = []){
+    return $this->bulk->addBulkRequest($name, $request, $params);
   }
 
-  public function executeBulk($client) {
-    return $this->bulk->execute($client);
+  public function executeBulk() {
+    return $this->bulk->executeBulk($this->client);
   }
 
   public function getBulkResponse($name) {
-    return $this->bulk->getResponse($name);
+    return $this->bulk->getBulkResponse($name);
   }
 
   public function storyBySlug($params){
