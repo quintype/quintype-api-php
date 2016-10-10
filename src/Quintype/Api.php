@@ -28,7 +28,7 @@ class Api
   }
 
   public function executeBulk() {
-    return $this->bulk->executeBulk($this->client);
+    return $this->bulk->executeBulk();
   }
 
   public function getBulkResponse($name) {

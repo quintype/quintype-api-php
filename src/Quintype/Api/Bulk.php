@@ -16,7 +16,7 @@ class Bulk
     return $this;
   }
 
-  public function executeBulk($client) {
+  public function executeBulk() {
     $requests = [];
     foreach($this->requests as $key => $value) {
       $requests[$key] = $value->toBulkRequest();
