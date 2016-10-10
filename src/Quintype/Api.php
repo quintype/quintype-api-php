@@ -90,4 +90,10 @@ class Api
   public function getSingleIssue($params){
     return $this->storyCollections->getSingleIssue($params);
   }
+
+  public function menuItems($menuItems) {
+    return array_map(function($menu) {
+      return new MenuItem($menu, $this);
+    }, $menuItems);
+  }
 }
