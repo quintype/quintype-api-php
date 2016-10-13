@@ -38,6 +38,22 @@ class Bulk
     $response = $this->base->postRequest($query, ["requests" => $requestPayload]);//Get the stories.
     return $response['results'];
   }
+
+  public function buildStacksRequest($stacks, $fields){
+    foreach($stacks as $stack){
+      $this->addBulkRequest($stack["heading"], $stack["story-group"], ["limit" => $stack["max-stories"], "fields" => $fields]);
+    }
+    return $this;
+  }
+
+  public function buildStacks($stacks){
+    $stacksArray = [];
+    foreach($stacks as $stack){
+      $stories = $this->getBulkResponse($stack["heading"]);
+      array_push($stacksArray, ["heading" => $stack["heading"], "stories" => $stories]);
+    }
+    return $stacksArray;
+  }
 }
 
 class Story extends ArrayObject

@@ -35,6 +35,14 @@ class Api
     return $this->bulk->getBulkResponse($name);
   }
 
+  public function buildStacksRequest($stacks, $fields){
+    return $this->bulk->buildStacksRequest($stacks, $fields);
+  }
+
+  public function buildStacks($stacks){
+    return $this->bulk->buildStacks($stacks);
+  }
+
   public function storyBySlug($params){
     return $this->stories->storyBySlug($params);
   }
