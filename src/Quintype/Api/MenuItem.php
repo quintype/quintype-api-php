@@ -16,6 +16,7 @@ class MenuItem extends ArrayObject
   public function url() {
     switch($this["item-type"]) {
       case "section": return "/section/" . $this["section-slug"];
+      case "tag": return "/tag/" . $this["tag-name"];
       default: return "#";
     }
   }
