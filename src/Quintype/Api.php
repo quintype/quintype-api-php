@@ -104,4 +104,27 @@ class Api
       return new MenuItem($menu, $this);
     }, $menuItems);
   }
+
+  public function levelTwoMenuItems($menuItems) {
+    $childIndices = [];
+    foreach ($menuItems as $key => $menuItem) {
+      if(!isset($menuItems[$key]['sub-menus'])){
+        $menuItems[$key]['sub-menus'] = [];
+      }
+      if(!is_null($menuItem['parent-id']) && !empty($menuItem['parent-id'])){
+        $parentIndex = array_search($menuItem['parent-id'], array_column($menuItems, "id"), true);
+        if($menuItem['item-type'] == 'section'){
+          $menuItem['section-slug'] = $menuItems[$parentIndex]['section-slug']. "/" . $menuItem['section-slug'];
+        }
+        array_push($menuItems[$parentIndex]['sub-menus'], $menuItem);
+        $childIndex = array_search($menuItem['id'], array_column($menuItems, "id"), true);
+        array_push($childIndices, $childIndex);
+      }
+    }
+    foreach ($childIndices as $key => $value) {
+      unset($menuItems[$value]);
+    }
+    return $this->menuItems($menuItems);
+  }
+
 }
