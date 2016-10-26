@@ -18,7 +18,7 @@ class MenuItem extends ArrayObject
       switch ($this["item-type"]) {
         case "section": return "/section/" . $this["section-slug"];
         case "link": return $this["data"]["link"];
-        case "tag": return "/tag/" . $this["tag-name"];
+        case "tag": return "/tag?tag=" . $this["tag-name"];
         default: return "#";
       }
     } catch (Exception $e) {
