@@ -41,7 +41,7 @@ class Bulk
 
   public function buildStacksRequest($stacks, $fields){
     foreach($stacks as $stack){
-      $this->addBulkRequest($stack["heading"], $stack["story-group"], ["limit" => $stack["max-stories"], "fields" => $fields]);
+      $this->addBulkRequest(trim($stack["heading"]), $stack["story-group"], ["limit" => $stack["max-stories"], "fields" => $fields]);
     }
     return $this;
   }
@@ -49,8 +49,8 @@ class Bulk
   public function buildStacks($stacks){
     $stacksArray = [];
     foreach($stacks as $stack){
-      $stories = $this->getBulkResponse($stack["heading"]);
-      array_push($stacksArray, ["heading" => $stack["heading"], "stories" => $stories]);
+      $stories = $this->getBulkResponse(trim($stack["heading"]));
+      array_push($stacksArray, ["heading" => trim($stack["heading"]), "stories" => $stories]);
     }
     return $stacksArray;
   }
