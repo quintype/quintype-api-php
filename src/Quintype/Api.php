@@ -17,6 +17,8 @@ class Api
     $this->search = new Search($this->client);
     $this->member = new Member($this->client);
     $this->storyCollections = new storyCollections($this->client);
+    $this->section = new Section();
+    $this->cache = new Cache();
   }
 
   public function config(){
@@ -103,6 +105,14 @@ class Api
     return array_map(function($menu) {
       return new MenuItem($menu, $this);
     }, $menuItems);
+  }
+
+  public function getSectionDetails($sectionName, $allSections){
+    return $this->section->getSectionDetails($sectionName, $allSections);
+  }
+
+  public function getKeys($groupKeys, $stories, $publisherId){
+    return $this->cache->getKeys($groupKeys, $stories, $publisherId);
   }
 
   public function levelTwoMenuItems($menuItems) {
