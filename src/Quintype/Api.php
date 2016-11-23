@@ -54,7 +54,7 @@ class Api
 
     public function prepareAlternateDetails($stories, $alternativePage = 'home')
     {
-        return $this->bulk->prepareAlternateDetails($stories, $alternativePage);
+        return $this->stories->prepareAlternateDetails($stories, $alternativePage);
     }
 
     public function storyBySlug($params)

@@ -65,28 +65,6 @@ class Bulk
 
         return $stacksArray;
     }
-
-    public function prepareAlternateDetails($stories, $alternativePage)
-    {
-        foreach ($stories as $story) {
-            if (sizeof($story['alternative']) > 0) {
-              $default = $story['alternative'][$alternativePage]['default'];
-                if (isset($default)) {
-                    if (isset($default['headline'])) {
-                        $story['headline'] = $default['headline'];
-                    }
-                    if (isset($default['hero-image'])) {
-                        $story['hero-image-metadata'] = $default['hero-image']['hero-image-metadata'];
-                        $story['hero-image-s3-key'] = $default['hero-image']['hero-image-s3-key'];
-                        $story['hero-image-caption'] = $default['hero-image']['hero-image-caption'];
-                        $story['hero-image-attribution'] = $default['hero-image']['hero-image-attribution'];
-                    }
-                }
-            }
-        }
-
-        return $stories;
-    }
 }
 
 class Story extends ArrayObject
