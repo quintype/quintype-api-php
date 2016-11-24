@@ -71,7 +71,7 @@ class Stories
     public function prepareAlternateDetails($stories, $alternativePage)
     {
         foreach ($stories as $story) {
-            if (sizeof($story['alternative']) > 0) {
+            if (isset($story['alternative']) && sizeof($story['alternative']) > 0) {
               $default = $story['alternative'][$alternativePage]['default'];
                 if (isset($default)) {
                     if (isset($default['headline'])) {

@@ -52,6 +52,10 @@ class Api
         return $this->bulk->buildStacks($stacks);
     }
 
+    public function getStoriesByStackName($stackName, $allStacks){
+        return $this->bulk->getStoriesByStackName($stackName, $allStacks);
+    }
+
     public function prepareAlternateDetails($stories, $alternativePage = 'home')
     {
         return $this->stories->prepareAlternateDetails($stories, $alternativePage);

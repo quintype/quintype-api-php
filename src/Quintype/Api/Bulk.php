@@ -65,6 +65,15 @@ class Bulk
 
         return $stacksArray;
     }
+
+    public function getStoriesByStackName($stackName, $allStacks){
+      $stackIndex = array_search($stackName, array_column($allStacks, 'heading'), true);
+      if ($stackIndex !== false) {
+        return $allStacks[$stackIndex];
+      } else {
+        return array();
+      }
+    }
 }
 
 class Story extends ArrayObject
