@@ -33,9 +33,13 @@ class Bulk
         $this->responses = $responses;
     }
 
-    public function getBulkResponse($name)
+    public function getBulkResponse($name, $showAltInPage = '')
     {
-        return $this->responses[$name];
+        if ($showAltInPage === '') {
+            return $this->responses[$name];
+        } else {
+            return $this->alternativeForBulk($this->responses[$name], $showAltInPage);
+        }
     }
 
     private function getStories($requestPayload)
@@ -66,13 +70,36 @@ class Bulk
         return $stacksArray;
     }
 
-    public function getStoriesByStackName($stackName, $allStacks){
-      $stackIndex = array_search($stackName, array_column($allStacks, 'heading'), true);
-      if ($stackIndex !== false) {
-        return $allStacks[$stackIndex];
-      } else {
-        return array();
-      }
+    public function getStoriesByStackName($stackName, $allStacks)
+    {
+        $stackIndex = array_search($stackName, array_column($allStacks, 'heading'), true);
+        if ($stackIndex !== false) {
+            return $allStacks[$stackIndex];
+        } else {
+            return array();
+        }
+    }
+
+    private function alternativeForBulk($stories, $alternativePage)
+    {
+        foreach ($stories as $story) {
+            if (isset($story['alternative']) && sizeof($story['alternative']) > 0) {
+                $default = $story['alternative'][$alternativePage]['default'];
+                if (isset($default)) {
+                    if (isset($default['headline'])) {
+                        $story['headline'] = $default['headline'];
+                    }
+                    if (isset($default['hero-image'])) {
+                        $story['hero-image-metadata'] = $default['hero-image']['hero-image-metadata'];
+                        $story['hero-image-s3-key'] = $default['hero-image']['hero-image-s3-key'];
+                        $story['hero-image-caption'] = $default['hero-image']['hero-image-caption'];
+                        $story['hero-image-attribution'] = $default['hero-image']['hero-image-attribution'];
+                    }
+                }
+            }
+        }
+
+        return $stories;
     }
 }
 

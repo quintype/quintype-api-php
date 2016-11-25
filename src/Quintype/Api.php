@@ -37,9 +37,9 @@ class Api
         return $this->bulk->executeBulk();
     }
 
-    public function getBulkResponse($name)
+    public function getBulkResponse($name, $showAltInPage = '')
     {
-        return $this->bulk->getBulkResponse($name);
+        return $this->bulk->getBulkResponse($name, $showAltInPage);
     }
 
     public function buildStacksRequest($stacks, $fields)
@@ -54,11 +54,6 @@ class Api
 
     public function getStoriesByStackName($stackName, $allStacks){
         return $this->bulk->getStoriesByStackName($stackName, $allStacks);
-    }
-
-    public function prepareAlternateDetails($stories, $alternativePage = 'home')
-    {
-        return $this->stories->prepareAlternateDetails($stories, $alternativePage);
     }
 
     public function storyBySlug($params)
@@ -81,9 +76,9 @@ class Api
         return $this->stories->storyComments($id);
     }
 
-    public function stories($params)
+    public function stories($params, $showAltInPage = '')
     {
-        return $this->stories->stories($params);
+        return $this->stories->stories($params, $showAltInPage);
     }
 
     public function storyAccessData($id, $sessionCookie)

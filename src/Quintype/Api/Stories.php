@@ -41,7 +41,7 @@ class Stories
         return $response['comments'];
     }
 
-    public function stories($params)
+    public function stories($params, $showAltInPage = '')
     {
         $query = '/api/v1/stories';
         $response = $this->base->getResponse($query, ['params' => $params]);
@@ -49,7 +49,11 @@ class Stories
             return false;
         }
 
-        return $response['stories'];
+        if ($showAltInPage === '') {
+            return $response['stories'];
+        } else {
+            return $this->alternativeForStories($response['stories'], $showAltInPage);
+        }
     }
 
     public function storyAccessData($id, $sessionCookie)
@@ -68,20 +72,20 @@ class Stories
         return $response;
     }
 
-    public function prepareAlternateDetails($stories, $alternativePage)
+    public function alternativeForStories($stories, $alternativePage)
     {
-        foreach ($stories as $story) {
+        foreach ($stories as $key => $story) {
             if (isset($story['alternative']) && sizeof($story['alternative']) > 0) {
-              $default = $story['alternative'][$alternativePage]['default'];
+                $default = $story['alternative'][$alternativePage]['default'];
                 if (isset($default)) {
                     if (isset($default['headline'])) {
-                        $story['headline'] = $default['headline'];
+                        $stories[$key]['headline'] = $default['headline'];
                     }
                     if (isset($default['hero-image'])) {
-                        $story['hero-image-metadata'] = $default['hero-image']['hero-image-metadata'];
-                        $story['hero-image-s3-key'] = $default['hero-image']['hero-image-s3-key'];
-                        $story['hero-image-caption'] = $default['hero-image']['hero-image-caption'];
-                        $story['hero-image-attribution'] = $default['hero-image']['hero-image-attribution'];
+                        $stories[$key]['hero-image-metadata'] = $default['hero-image']['hero-image-metadata'];
+                        $stories[$key]['hero-image-s3-key'] = $default['hero-image']['hero-image-s3-key'];
+                        $stories[$key]['hero-image-caption'] = $default['hero-image']['hero-image-caption'];
+                        $stories[$key]['hero-image-attribution'] = $default['hero-image']['hero-image-attribution'];
                     }
                 }
             }
