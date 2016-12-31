@@ -66,4 +66,9 @@ class MenuItem extends ArrayObject
             return '#';
         }
     }
+
+    public function menuType()
+    {
+        return $this['item-type'];
+    }
 }
