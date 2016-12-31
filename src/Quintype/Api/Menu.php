@@ -57,7 +57,7 @@ class MenuItem extends ArrayObject
     {
         try {
             switch ($this['item-type']) {
-              case 'section': return '/'.$this['section-slug'];
+              case 'section': return $this['section-slug'];
               case 'link': return $this['data']['link'];
               case 'tag': return '/tag?tag='.$this['tag-name'];
               default: return '#';
