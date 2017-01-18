@@ -20,6 +20,7 @@ class Api
         $this->cache = new Cache();
         $this->menu = new Menu();
         $this->breakingNews = new BreakingNews($this->client);
+        $this->contactUs = new ContactUs($this->client);
     }
 
     public function config()
@@ -149,5 +150,10 @@ class Api
     public function getBreakingNews($params = [])
     {
         return $this->breakingNews->getBreakingNews($params);
+    }
+        
+    // Version 1.6.0 onwards
+    public function postContactUs($data) {
+        return $this->contactUs->postContact($data);
     }
 }
