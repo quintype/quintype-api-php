@@ -90,10 +90,11 @@ class Bulk
                         $story['headline'] = $default['headline'];
                     }
                     if (isset($default['hero-image'])) {
-                        $story['hero-image-metadata'] = $default['hero-image']['hero-image-metadata'];
-                        $story['hero-image-s3-key'] = $default['hero-image']['hero-image-s3-key'];
-                        $story['hero-image-caption'] = $default['hero-image']['hero-image-caption'];
-                        $story['hero-image-attribution'] = $default['hero-image']['hero-image-attribution'];
+                        $heroImage = $default['hero-image'];
+                        $story['hero-image-metadata'] = isset($heroImage['hero-image-metadata'])?$heroImage['hero-image-metadata']:'';
+                        $story['hero-image-s3-key'] = isset($heroImage['hero-image-s3-key'])?$heroImage['hero-image-s3-key']:'';
+                        $story['hero-image-caption'] = isset($heroImage['hero-image-caption'])?$heroImage['hero-image-caption']:'';
+                        $story['hero-image-attribution'] = isset($heroImage['hero-image-attribution'])?$heroImage['hero-image-attribution']:'';
                     }
                 }
             }
