@@ -16,8 +16,15 @@ class Collections
         if (empty($response)) {
             return false;
         }
+
         return $response;
     }
 
-}
+    public function bulkCollections($requestPayload)
+    {
+        $query = '/api/v1/bulk';
+        $response = $this->base->postRequest($query, ['requests' => $requestPayload]);
 
+        return $response['results'];
+    }
+}

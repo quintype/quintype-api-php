@@ -152,14 +152,19 @@ class Api
     {
         return $this->breakingNews->getBreakingNews($params);
     }
-        
+
     // Version 1.6.0 onwards
     public function postContactUs($data) {
         return $this->contactUs->postContact($data);
     }
-    
-    //Version 1.7.0 onwards    
+
+    //Version 1.7.0 onwards
     public function getCollections($collection, $params) {
         return $this->collections->getCollections($collection, $params);
+    }
+
+    //Version 1.7.1 onwards
+    public function bulkCollections($requestPayload) {
+        return $this->collections->bulkCollections($requestPayload);
     }
 }
