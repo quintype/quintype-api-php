@@ -53,6 +53,7 @@ class MenuItem extends ArrayObject
         return $this['title'];
     }
 
+    //Use slug() instead of url(). Function url() is kept for backward compatibility.
     public function url()
     {
         try {
@@ -60,6 +61,20 @@ class MenuItem extends ArrayObject
               case 'section': return $this['section-slug'];
               case 'link': return $this['data']['link'];
               case 'tag': return '/tag?tag='.$this['tag-name'];
+              default: return '#';
+            }
+        } catch (Exception $e) {
+            return '#';
+        }
+    }
+
+    public function slug()
+    {
+        try {
+            switch ($this['item-type']) {
+              case 'section': return $this['section-slug'];
+              case 'link': return $this['data']['link'];
+              case 'tag': return $this['tag-name'];
               default: return '#';
             }
         } catch (Exception $e) {
