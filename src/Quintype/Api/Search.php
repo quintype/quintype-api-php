@@ -9,7 +9,7 @@ class Search
         $this->base = new BaseFunctions($client);
     }
 
-    public function search($search = null)
+    public function searchBase($search = null)
     {
         $query = '/api/v1/search?';
         $first = true;
@@ -23,6 +23,11 @@ class Search
         }
         $response = $this->base->getResponse($query);
 
-        return $response['results']['stories'];
+        return $response['results'];
+    }
+    
+    public function search($search = null)
+    {
+        return $this->searchBase($search)['stories'];
     }
 }
