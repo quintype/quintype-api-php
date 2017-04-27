@@ -103,6 +103,11 @@ class Api
         return $this->search->search($search);
     }
 
+    public function searchBase($search)
+    {
+        return $this->search->searchBase($search);
+    }
+
     public function getCurrentMember($cookie)
     {
         return $this->member->getCurrentMember($cookie);
