@@ -4,15 +4,19 @@ namespace Quintype\Api;
 
 class Stories
 {
-    public function __construct($client)
+    public function __construct($client, $globalSettings)
     {
         $this->base = new BaseFunctions($client);
+        $this->removeDateFromSlugs = isset($globalSettings['removeDateFromSlugs']) && $globalSettings['removeDateFromSlugs'];
     }
 
     public function storyBySlug($params)
     {
         $query = '/api/v1/stories-by-slug';
         $response = $this->base->getResponse($query, ['params' => $params]);
+        if($this->removeDateFromSlugs){
+          $response['story']['slug'] = $this->base->removeDateFromSlug($response['story']['slug']);
+        }
 
         return $response['story'];
     }
@@ -21,6 +25,9 @@ class Stories
     {
         $query = '/api/v1/stories/'.$story_id;
         $response = $this->base->getResponse($query);
+        if($this->removeDateFromSlugs){
+          $response['story']['slug'] = $this->base->removeDateFromSlug($response['story']['slug']);
+        }
 
         return $response;
     }
@@ -47,6 +54,11 @@ class Stories
         $response = $this->base->getResponse($query, ['params' => $params]);
         if (empty($response)) {
             return false;
+        }
+        if($this->removeDateFromSlugs){
+          foreach ($response['stories'] as $key => $story) {
+            $response['stories'][$key]['slug'] = $this->base->removeDateFromSlug($response['stories'][$key]['slug']);
+          }
         }
 
         if ($showAltInPage === '') {

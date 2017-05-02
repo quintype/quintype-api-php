@@ -6,22 +6,22 @@ use GuzzleHttp\Client;
 
 class Api
 {
-    public function __construct($apiHost)
+    public function __construct($apiHost, $globalSettings = [])
     {
         $this->client = new Client(['base_uri' => $apiHost]);
-        $this->config = new Config($this->client);
-        $this->bulk = new Bulk($this->client);
-        $this->stories = new Stories($this->client);
-        $this->author = new Author($this->client);
-        $this->search = new Search($this->client);
-        $this->member = new Member($this->client);
-        $this->storyCollections = new storyCollections($this->client);
+        $this->config = new Config($this->client, $globalSettings);
+        $this->bulk = new Bulk($this->client, $globalSettings);
+        $this->stories = new Stories($this->client, $globalSettings);
+        $this->author = new Author($this->client, $globalSettings);
+        $this->search = new Search($this->client, $globalSettings);
+        $this->member = new Member($this->client, $globalSettings);
+        $this->storyCollections = new storyCollections($this->client, $globalSettings);
         $this->section = new Section();
         $this->cache = new Cache();
         $this->menu = new Menu();
-        $this->breakingNews = new BreakingNews($this->client);
-        $this->contactUs = new ContactUs($this->client);
-        $this->collections = new Collections($this->client);
+        $this->breakingNews = new BreakingNews($this->client, $globalSettings);
+        $this->contactUs = new ContactUs($this->client, $globalSettings);
+        $this->collections = new Collections($this->client, $globalSettings);
     }
 
     public function config()

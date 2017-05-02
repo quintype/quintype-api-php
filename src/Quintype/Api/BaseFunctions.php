@@ -60,4 +60,13 @@ class BaseFunctions
 
       return $requestPayload;
   }
+
+  public function removeDateFromSlug($storySlug){
+    $slugArray = explode('/', $storySlug);
+    if(sizeof($slugArray) === 5){
+      return $slugArray[0] . "/" . $slugArray[4];
+    } else {
+      return $storySlug;
+    }
+  }
 }
