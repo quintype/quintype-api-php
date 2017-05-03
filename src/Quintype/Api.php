@@ -22,6 +22,7 @@ class Api
         $this->breakingNews = new BreakingNews($this->client, $globalSettings);
         $this->contactUs = new ContactUs($this->client, $globalSettings);
         $this->collections = new Collections($this->client, $globalSettings);
+        $this->entities = new Entities($this->client);
     }
 
     public function config()
@@ -171,5 +172,10 @@ class Api
     //Version 1.7.1 onwards
     public function bulkCollections($requestPayload) {
         return $this->collections->bulkCollections($requestPayload);
+    }
+
+    //Version 1.10.0 onwards
+    public function getEntity($entityId = '') {
+        return $this->entities->getEntity($entityId);
     }
 }
