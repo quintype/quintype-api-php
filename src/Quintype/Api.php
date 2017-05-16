@@ -99,6 +99,11 @@ class Api
         return $this->author->getAuthor($id);
     }
 
+    public function getAuthors()
+    {
+        return $this->author->getAuthors();
+    }
+    
     public function search($search)
     {
         return $this->search->search($search);
