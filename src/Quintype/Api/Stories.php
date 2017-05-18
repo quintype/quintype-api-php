@@ -84,6 +84,14 @@ class Stories
         return $response;
     }
 
+    public function engagementCount($id, $params)
+    {
+        $query = '/api/stories/'.$id.'/engagement';
+        $response = $this->base->getResponse($query, ['params' => $params]);
+
+        return $response;
+    }
+
     public function alternativeForStories($stories, $alternativePage)
     {
         foreach ($stories as $key => $story) {

@@ -91,7 +91,7 @@ class Api
 
     public function facebookCount($id, $params)
     {
-        return $this->stories->facebookCount($params);
+        return $this->stories->engagementCount($id, $params);
     }
 
     public function getAuthor($id)
@@ -103,7 +103,7 @@ class Api
     {
         return $this->author->getAuthors();
     }
-    
+
     public function search($search)
     {
         return $this->search->search($search);
@@ -182,5 +182,11 @@ class Api
     //Version 1.10.0 onwards
     public function getEntity($entityId = '') {
         return $this->entities->getEntity($entityId);
+    }
+
+    //Version 1.11.1 onwards
+    public function engagementCount($id, $params)
+    {
+        return $this->stories->engagementCount($id, $params);
     }
 }
