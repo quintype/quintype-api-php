@@ -185,7 +185,7 @@ class Api
     }
 
     //Version 1.11.1 onwards
-    public function engagementCount($id, $params)
+    public function engagementCount($id, $params = ["fields" => "shrubbery,facebook"])
     {
         return $this->stories->engagementCount($id, $params);
     }
