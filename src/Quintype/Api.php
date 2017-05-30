@@ -179,9 +179,9 @@ class Api
         return $this->collections->bulkCollections($requestPayload);
     }
 
-    //Version 1.10.0 onwards
-    public function getEntity($entityId = '') {
-        return $this->entities->getEntity($entityId);
+    //Version 1.12.0 onwards
+    public function getEntity($entityId = '', $params = []) {
+        return $this->entities->getEntity($entityId, $params);
     }
 
     //Version 1.11.1 onwards
