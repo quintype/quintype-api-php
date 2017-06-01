@@ -17,8 +17,8 @@ class Author
         return $response['author'];
     }
     
-    public function getAuthors() {
+    public function getAuthors($params) {
       $query = '/api/authors';
-      return $this->base->getResponse($query);
+      return $this->base->getResponse($query, ["params"=> $params]);
     }
 }
