@@ -98,10 +98,11 @@ class Api
     {
         return $this->author->getAuthor($id);
     }
-
-    public function getAuthors()
+    
+    //Version 1.13.0 onwards
+    public function getAuthors($params = [])
     {
-        return $this->author->getAuthors();
+        return $this->author->getAuthors($params);
     }
 
     public function search($search)
