@@ -16,9 +16,23 @@ class Author
 
         return $response['author'];
     }
-    
+
+    /**
+     * @param $params
+     * @return array['pages', 'authors']
+     */
     public function getAuthors($params) {
       $query = '/api/authors';
       return $this->base->getResponse($query, ["params"=> $params]);
+    }
+
+    /**
+     * @param array $params
+     * @return array['pages', 'authors']
+     */
+    public function getAuthorsV1(array $params)
+    {
+        $query = '/api/v1/authors';
+        return $this->base->getResponse($query, ["params"=> $params]);
     }
 }

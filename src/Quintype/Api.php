@@ -105,6 +105,11 @@ class Api
         return $this->author->getAuthors($params);
     }
 
+    public function getAuthorsV1($params = [])
+    {
+        return $this->author->getAuthorsV1($params);
+    }
+
     public function search($search)
     {
         return $this->search->search($search);
