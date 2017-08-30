@@ -113,4 +113,12 @@ class Stories
 
         return $stories;
     }
+
+    public function publicPreview($encryptedKey)
+    {
+        $query = '/api/v1/preview/story/'.$encryptedKey;
+        $response = $this->base->getResponse($query);
+
+        return $response['story'];
+    }
 }

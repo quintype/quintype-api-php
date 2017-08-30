@@ -98,7 +98,7 @@ class Api
     {
         return $this->author->getAuthor($id);
     }
-    
+
     //Version 1.13.0 onwards
     public function getAuthors($params = [])
     {
@@ -194,5 +194,9 @@ class Api
     public function engagementCount($id, $params = ["fields" => "shrubbery,facebook"])
     {
         return $this->stories->engagementCount($id, $params);
+    }
+
+    public function publicPreview($encryptedKey) {
+        return $this->stories->publicPreview($encryptedKey);
     }
 }
