@@ -40,6 +40,11 @@ class Api
         return $this->bulk->executeBulk();
     }
 
+    public function executeBulkCached()
+    {
+        return $this->bulk->executeBulkCached();
+    }
+
     public function getBulkResponse($name, $showAltInPage = '')
     {
         return $this->bulk->getBulkResponse($name, $showAltInPage);
@@ -183,6 +188,11 @@ class Api
     //Version 1.7.1 onwards
     public function bulkCollections($requestPayload) {
         return $this->collections->bulkCollections($requestPayload);
+    }
+
+    public function bulkCollectionsCached($requestPayload)
+    {
+        return $this->collections->bulkCollectionsCached($requestPayload);
     }
 
     //Version 1.12.0 onwards

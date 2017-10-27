@@ -69,4 +69,12 @@ class BaseFunctions
       return $storySlug;
     }
   }
+
+  public function reorderKeys($arr, $order) {
+        $output = [];
+        foreach($order as $key => $val) {
+            $output[$key] = $arr[$key];
+        }
+        return $output;
+    }
 }

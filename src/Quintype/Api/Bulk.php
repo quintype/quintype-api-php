@@ -19,18 +19,28 @@ class Bulk
         return $this;
     }
 
-    public function executeBulk()
+    private function doExecuteBulk($path)
     {
         $requests = [];
         foreach ($this->requests as $key => $value) {
             $requests[$key] = $value->toBulkRequest();
         }
-        $apiResponse = $this->getStories($requests);
+        $apiResponse = $this->getStories($requests, $path);
         $responses = [];
         foreach ($this->requests as $key => $value) {
             $responses[$key] = $value->fromBulkResponse($apiResponse[$key]);
         }
         $this->responses = $responses;
+    }
+
+    public function executeBulk()
+    {
+        return $this->doExecuteBulk('/api/v1/bulk');
+    }
+
+    public function executeBulkCached()
+    {
+        return $this->doExecuteBulk('/api/v1/bulk-request');
     }
 
     public function getBulkResponse($name, $showAltInPage = '')
@@ -42,11 +52,9 @@ class Bulk
         }
     }
 
-    private function getStories($requestPayload)
+    private function getStories($requestPayload, $query)
     {
-        $query = '/api/v1/bulk';
         $response = $this->base->postRequest($query, ['requests' => $requestPayload]);
-
         return $response['results'];
     }
 
