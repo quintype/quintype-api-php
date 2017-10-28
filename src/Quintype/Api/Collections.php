@@ -44,4 +44,9 @@ class Collections
 
         return $response['results'];
     }
+
+    public function bulkCollectionsCached($requestPayload) {
+        $response = $this->base->postRequest('/api/v1/bulk-request', ['requests' => $requestPayload]);
+        return $this->base->reorderKeys($response['results'], $requestPayload);
+    }
 }
