@@ -19,13 +19,13 @@ class Bulk
         return $this;
     }
 
-    private function doExecuteBulk($path)
+    private function doExecuteBulk($callback)
     {
         $requests = [];
         foreach ($this->requests as $key => $value) {
             $requests[$key] = $value->toBulkRequest();
         }
-        $apiResponse = $this->getStories($requests, $path);
+        $apiResponse = $callback($requests);
         $responses = [];
         foreach ($this->requests as $key => $value) {
             $responses[$key] = $value->fromBulkResponse($apiResponse[$key]);
@@ -35,12 +35,22 @@ class Bulk
 
     public function executeBulk()
     {
-        return $this->doExecuteBulk('/api/v1/bulk');
+        return $this->doExecuteBulk(function ($requests) {
+            $response = $this->base->postRequest('/api/v1/bulk', ['requests' => $requestPayload]);
+            return $response['results'];
+        });
     }
 
     public function executeBulkCached()
     {
-        return $this->doExecuteBulk('/api/v1/bulk-request');
+        return $this->doExecuteBulk(function ($requests) {
+            $location = $this->base->convertBulkBodyToLocation($requests, [
+                'fetch' => function($x) { return \Cache::get($x); },
+                'store' => function($x, $y) { return \Cache::forever($x, $y); }
+            ]);
+            $response = $this->base->getResponse($location);
+            return $response['results'];
+        });
     }
 
     public function getBulkResponse($name, $showAltInPage = '')
@@ -50,12 +60,6 @@ class Bulk
         } else {
             return $this->alternativeForBulk($this->responses[$name], $showAltInPage);
         }
-    }
-
-    private function getStories($requestPayload, $query)
-    {
-        $response = $this->base->postRequest($query, ['requests' => $requestPayload]);
-        return $response['results'];
     }
 
     public function buildStacksRequest($stacks, $fields)

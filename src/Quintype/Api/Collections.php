@@ -72,7 +72,11 @@ class Collections
 
     public function bulkCollectionsCached($requestPayload) {
         $requestPayload = $this->mapNewKeys($requestPayload);
-        $response = $this->base->postRequest('/api/v1/bulk-request', ['requests' => $requestPayload]);
+        $location = $this->base->convertBulkBodyToLocation($requestPayload, [
+            'fetch' => function($x) { return \Cache::get($x); },
+            'store' => function($x, $y) { return \Cache::forever($x, $y); }
+        ]);
+        $response = $this->base->getResponse($location);
         $collectionResponse = $this->base->reorderKeys($response['results'], $requestPayload);
         return $this->mapOriginalKeys($collectionResponse);
     }
