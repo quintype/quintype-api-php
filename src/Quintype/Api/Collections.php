@@ -8,6 +8,7 @@ class Collections
     {
         $this->base = new BaseFunctions($client);
         $this->removeDateFromSlugs = isset($globalSettings['removeDateFromSlugs']) && $globalSettings['removeDateFromSlugs'];
+        $this->keyMapData = [];
     }
 
     public function getCollections($collection, $params)
@@ -45,8 +46,34 @@ class Collections
         return $response['results'];
     }
 
+    private function mapNewKeys($requestPayload)
+    {
+        $updatedMap = [];
+        $count = 1;
+        foreach ($requestPayload as $key => $payload) {
+            $updatedMap["col{$count}"] = $requestPayload[$key];
+            $this->keyMapData["col{$count}"] = $key;
+            ++$count;
+        }
+
+        return $updatedMap;
+    }
+
+    private function mapOriginalKeys($collectionResponse)
+    {
+        $mapWithOriginalKeys = [];
+        foreach ($collectionResponse as $key => $response) {
+            $mapWithOriginalKeys[$this->keyMapData[$key]] = $response;
+        }
+
+        $this->keyMapData = [];
+        return $mapWithOriginalKeys;
+    }
+
     public function bulkCollectionsCached($requestPayload) {
+        $requestPayload = $this->mapNewKeys($requestPayload);
         $response = $this->base->postRequest('/api/v1/bulk-request', ['requests' => $requestPayload]);
-        return $this->base->reorderKeys($response['results'], $requestPayload);
+        $collectionResponse = $this->base->reorderKeys($response['results'], $requestPayload);
+        return $this->mapOriginalKeys($collectionResponse);
     }
 }
