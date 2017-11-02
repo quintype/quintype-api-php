@@ -36,15 +36,36 @@ class BaseFunctions
   public function postRequest($query, $data)
   {
       try {
-          $request = $this->client->request('POST', $query, [
-          'json' => $data,
-      ]);
+          $request = $this->client->request('POST', $query, ['json' => $data]);
           $response = json_decode($request->getBody()->getContents(), true);
       } catch (RequestException $e) {
           return false;
       }
 
       return $response;
+  }
+
+  /** Do a POST without Converting to JSON **/
+  public function convertBulkBodyToLocation($requests, $cache) {
+      $encodedData = json_encode(['requests' => $requests]);
+
+      if($location = $cache['fetch']($encodedData)) {
+        return $location;
+      };
+
+      $request = $this->client->request('POST', '/api/v1/bulk-request', [
+        'body' => $encodedData,
+        'headers' => ['Content-Type' => "application/json"],
+        'allow_redirects' => false
+      ]);
+
+      if($request->getStatusCode() == 303) {
+        $location = $request->getHeader("Location")[0];
+        $cache['store']($encodedData, $location);
+        return $location;
+      } else {
+        throw new RequestException("Invalid status code in /api/v1/bulk-request: " . $request->getStatus());
+      }
   }
 
   /** Used to add any common data required for each element of the payload. **/
