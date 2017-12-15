@@ -1,6 +1,7 @@
 <?php
 
 namespace Quintype\Api;
+use GuzzleHttp\Exception\RequestException;
 
 class BaseFunctions
 {
@@ -64,7 +65,7 @@ class BaseFunctions
         $cache['store']($encodedData, $location);
         return $location;
       } else {
-        throw new RequestException("Invalid status code in /api/v1/bulk-request: " . $request->getStatus());
+        throw new RequestException("Invalid status code in /api/v1/bulk-request: " . $request->getStatusCode());
       }
   }
 

@@ -10,7 +10,7 @@ class Api
     {
         $this->client = new Client(['base_uri' => $apiHost]);
         $this->config = new Config($this->client, $globalSettings);
-        $this->bulk = new Bulk($this->client, $globalSettings);
+        $this->bulk = new Bulk($this->client, $globalSettings, $apiHost);
         $this->stories = new Stories($this->client, $globalSettings);
         $this->author = new Author($this->client, $globalSettings);
         $this->search = new Search($this->client, $globalSettings);

@@ -6,10 +6,11 @@ use ArrayObject;
 
 class Bulk
 {
-    public function __construct($client)
+    public function __construct($client, $globalSettings, $apiHost)
     {
         $this->requests = [];
         $this->base = new BaseFunctions($client);
+        $this->apiHost = $apiHost;
     }
 
     public function addBulkRequest($name, $request, $params)
@@ -45,8 +46,8 @@ class Bulk
     {
         return $this->doExecuteBulk(function ($requests) {
             $location = $this->base->convertBulkBodyToLocation($requests, [
-                'fetch' => function($x) { return \Cache::get($x); },
-                'store' => function($x, $y) { return \Cache::forever($x, $y); }
+                'fetch' => function($x) { return \Cache::get($this->apiHost . $x); },
+                'store' => function($x, $y) { return \Cache::forever($this->apiHost . $x, $y); }
             ]);
             $response = $this->base->getResponse($location);
             return $response['results'];
