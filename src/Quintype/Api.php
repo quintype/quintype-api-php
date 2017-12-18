@@ -23,6 +23,7 @@ class Api
         $this->contactUs = new ContactUs($this->client, $globalSettings);
         $this->collections = new Collections($this->client, $globalSettings);
         $this->entities = new Entities($this->client);
+        $this->tags = new Tags($this->client);
     }
 
     public function config()
@@ -208,5 +209,9 @@ class Api
 
     public function publicPreview($encryptedKey) {
         return $this->stories->publicPreview($encryptedKey);
+    }
+
+    public function getTagsBySlug($tagSlug = '') {
+        return $this->tags->getTagsBySlug($tagSlug);
     }
 }
