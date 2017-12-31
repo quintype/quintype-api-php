@@ -182,7 +182,7 @@ class Api
     }
 
     //Version 1.7.0 onwards
-    public function getCollections($collection, $params) {
+    public function getCollections($collection, $params = []) {
         return $this->collections->getCollections($collection, $params);
     }
 
