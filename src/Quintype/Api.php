@@ -24,6 +24,7 @@ class Api
         $this->collections = new Collections($this->client, $globalSettings);
         $this->entities = new Entities($this->client);
         $this->tags = new Tags($this->client);
+        $this->redirectPath = new RedirectPath($this->client);
     }
 
     public function config()
@@ -213,5 +214,9 @@ class Api
 
     public function getTagsBySlug($tagSlug = '') {
         return $this->tags->getTagsBySlug($tagSlug);
+    }
+
+    public function getRedirectPath($url = '') {
+        return $this->redirectPath->getRedirectPath($url);
     }
 }
