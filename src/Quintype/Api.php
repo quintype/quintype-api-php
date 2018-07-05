@@ -2,13 +2,36 @@
 
 namespace Quintype\Api;
 
+use Psr\Http\Message\RequestInterface;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\Client;
+
+function add_header($header, $value)
+{
+    return function (callable $handler) use ($header, $value) {
+        return function (
+            RequestInterface $request,
+            array $options
+        ) use ($handler, $header, $value) {
+            $request = $request->withHeader($header, $value);
+            return $handler($request, $options);
+        };
+    };
+}
 
 class Api
 {
     public function __construct($apiHost, $globalSettings = [])
     {
-        $this->client = new Client(['base_uri' => $apiHost]);
+        $stack = new HandlerStack();
+        $stack->setHandler(new CurlHandler());
+        $stack->push(add_header('Accept-Encoding', 'gzip'));
+        $this->client = new Client([
+            'base_uri' => $apiHost,
+            'handler' => $stack
+        ]);
+
         $this->config = new Config($this->client, $globalSettings);
         $this->bulk = new Bulk($this->client, $globalSettings, $apiHost);
         $this->stories = new Stories($this->client, $globalSettings);
