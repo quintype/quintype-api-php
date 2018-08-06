@@ -242,4 +242,9 @@ class Api
     public function getRedirectPath($url = '') {
         return $this->redirectPath->getRedirectPath($url);
     }
+
+    public function getAmpStory($storySlug){
+        return  $this->stories->ampStory($storySlug);
+    }
+
 }

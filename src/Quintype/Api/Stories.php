@@ -121,4 +121,11 @@ class Stories
 
         return $response['story'];
     }
+
+    public function ampStory($storySlug){
+        $query = 'api/v1/amp/story?slug='.$storySlug;
+        $response = $this->base->getResponse($query);
+
+        return $response;
+    }
 }
