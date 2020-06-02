@@ -99,9 +99,9 @@ class Api
         return $this->stories->storyById($story_id);
     }
 
-    public function relatedStories($id)
+    public function relatedStories($id, $params = [])
     {
-        return $this->stories->relatedStories($id);
+        return $this->stories->relatedStories($id, $params);
     }
 
     public function storyComments($id)

@@ -32,10 +32,11 @@ class Stories
         return $response;
     }
 
-    public function relatedStories($id)
+    public function relatedStories($id, $params = [])
     {
         $query = '/api/v1/stories/'.$id.'/'.'related-stories';
-        $response = $this->base->getResponse($query);
+
+        $response = $this->base->getResponse($query, ['params' => $params]);
 
         return $response['related-stories'];
     }
