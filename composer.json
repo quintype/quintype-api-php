@@ -5,7 +5,7 @@
     },
     "autoload": {
         "psr-0" : {
-            "Quintype" : "src"
+            "Quintype\\Api\\": "src/"
         }
     }
 }
